@@ -3971,7 +3971,7 @@ callsites@^2.0.0:
   resolved "https://registry.yarnpkg.com/callsites/-/callsites-2.0.0.tgz#06eb84f00eea413da86affefacbffb36093b3c50"
   integrity sha1-BuuE8A7qQT2oav/vrL/7Ngk7PFA=
 
-callsites@^3.0.0:
+callsites@^3.0.0, callsites@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/callsites/-/callsites-3.1.0.tgz#b3630abd8943432f54b3f0519238e33cd7df2f73"
   integrity sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==
@@ -5658,7 +5658,7 @@ ejs@~2.5.6:
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.9.tgz#7ba254582a560d267437109a68354112475b0ce5"
   integrity sha512-GJCAeDBKfREgkBtgrYSf9hQy9kTb3helv0zGdzqhM7iAkW8FA/ZF97VQDbwFiwIT8MQLLOe5VlPZOEvZAqtUAQ==
 
-electron-builder@^22.2.0:
+electron-builder@^22.3.2:
   version "22.3.2"
   resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-22.3.2.tgz#902d150fc0670cb90213262e5e0aa3c4f299ffa4"
   integrity sha512-bDjHfKtA4DapI6qqy4FC18fzLsOJtlSVGBqjSjhrgv+gbcppp3tjR6ASsUX5K64/8L9MGjhRGdfQ7iP78OLx8g==
@@ -5804,10 +5804,10 @@ electron-updater@^4.2.0:
     pako "^1.0.10"
     semver "^6.3.0"
 
-electron@7.1.13:
-  version "7.1.13"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-7.1.13.tgz#f98838de70d74890cf639bbbbbe1f3b4b341ae78"
-  integrity sha512-WFfjhAG/B2iVjZcGoQkwkn/Zf1YN3U5Ux/hTcnANRiM6qPMAX23CINQC+vhlHspcjM9/jbF310fHCSrsXMGlAg==
+electron@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-8.0.1.tgz#7f5070a1625f423cddcece25a1eb9e6d2f1339fb"
+  integrity sha512-kLZAQkbrAFNjQVpcHJUnjRYQNafuuWKnsdxzag5do1ewMqN0J4Pi/hPE27+5/1YAFMcbvCrPqhWIpcMsi8mKXQ==
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"
@@ -6302,6 +6302,11 @@ eslint@^6.8.0:
     table "^5.2.3"
     text-table "^0.2.0"
     v8-compile-cache "^2.0.3"
+
+esm@^3.2.25:
+  version "3.2.25"
+  resolved "https://registry.yarnpkg.com/esm/-/esm-3.2.25.tgz#342c18c29d56157688ba5ce31f8431fbb795cc10"
+  integrity sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==
 
 esotope-hammerhead@^0.5.1:
   version "0.5.1"
@@ -10604,6 +10609,11 @@ object.values@^1.1.0, object.values@^1.1.1:
     function-bind "^1.1.1"
     has "^1.0.3"
 
+observable-fns@^0.5.0:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/observable-fns/-/observable-fns-0.5.1.tgz#9b56478690dd0fa8603e3a7e7d2975d88bca0904"
+  integrity sha512-wf7g4Jpo1Wt2KIqZKLGeiuLOEMqpaOZ5gJn7DmSdqXgTdxRwSdBhWegQQpPteQ2gZvzCKqNNpwb853wcpA0j7A==
+
 obuf@^1.0.0, obuf@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
@@ -14274,6 +14284,25 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
+threads-plugin@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/threads-plugin/-/threads-plugin-1.3.0.tgz#4fd2665854fe062b48ff0f42ef4210e485da0d16"
+  integrity sha512-94pZAdctmYtPMvozYj9Vc4wDf4NtJnFgREuRUAhWp18mw+fhJABZwcVphPuvCVTZ5mPind1ndMabMktmc4pVjQ==
+  dependencies:
+    loader-utils "^1.1.0"
+
+threads@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/threads/-/threads-1.2.0.tgz#f8a7a70aa355f003cccf894f85d55ff0bb87436b"
+  integrity sha512-QGHWxkLA+5IYe+Z1d/uhfYk+AbproPFAZoW48vrd+1N3MP37+e4wsyntpwhSixlY42dGtqRgP4b/Fqy/D6QBEQ==
+  dependencies:
+    callsites "^3.1.0"
+    debug "^4.1.1"
+    is-observable "^1.1.0"
+    observable-fns "^0.5.0"
+  optionalDependencies:
+    tiny-worker ">= 2"
+
 throat@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/throat/-/throat-5.0.0.tgz#c5199235803aad18754a667d659b5e72ce16764b"
@@ -14341,6 +14370,13 @@ tiny-warning@^1.0.0, tiny-warning@^1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tiny-warning/-/tiny-warning-1.0.3.tgz#94a30db453df4c643d0fd566060d60a875d84754"
   integrity sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==
+
+"tiny-worker@>= 2", tiny-worker@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/tiny-worker/-/tiny-worker-2.3.0.tgz#715ae34304c757a9af573ae9a8e3967177e6011e"
+  integrity sha512-pJ70wq5EAqTAEl9IkGzA+fN0836rycEuz2Cn6yeZ6FRzlVS5IDOkFHpIoEsksPRQV34GDqXm65+OlnZqUSyK2g==
+  dependencies:
+    esm "^3.2.25"
 
 tmp-promise@^1.0.5:
   version "1.1.0"

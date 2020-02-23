@@ -1,13 +1,13 @@
 {
   "name": "johns-xlsx-helper",
   "productName": "johns-xlsx-helper",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "Utility built for John to help with XLSX stuff.",
   "main": "./main.prod.js",
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://github.com/electron-react-boilerplate"
+    "name": "Marwan Fikrat",
+    "email": "marwan.mm@live.com",
+    "url": "https://github.com/marwan38"
   },
   "scripts": {
     "electron-rebuild": "node -r ../internals/scripts/BabelRegister.js ../internals/scripts/ElectronRebuild.js",

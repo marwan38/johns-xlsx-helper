@@ -2,7 +2,7 @@
 import React, { useCallback, useState } from 'react';
 
 import { useDropzone } from 'react-dropzone';
-import { Button, Elevation, Card } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
 import { returnFileMeta } from '../utils';
 
 type Props = {

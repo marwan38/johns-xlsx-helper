@@ -4,5 +4,6 @@ export const Events = {
   Compare: 'execute:compare',
   GetPath: 'get-path',
   Message: 'deliver-message',
-  Progress: 'progress-log'
+  Progress: 'progress-log',
+  Version: 'version',
 };

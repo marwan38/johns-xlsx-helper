@@ -36,7 +36,7 @@ function Progress({ style = {} }: Props) {
         intent={value < 1 ? Intent.PRIMARY : Intent.SUCCESS}
         value={value}
         stripes={value !== 1}
-        className={style.progressBar}
+        className={styles.progressBar}
       />
     </div>
   );

@@ -12,7 +12,7 @@ import Toaster from './Toaster';
 
 // import { Link } from 'react-router-dom';
 // import routes from '../constants/routes.json';
-import styles from './Home.css';
+// import styles from './Home.css';
 
 export default function Home() {
   const [files, setFiles] = useState();
@@ -26,7 +26,7 @@ export default function Home() {
 
   const filesAvailable = files && files.length > 0;
   return (
-    <div className={styles.container}>
+    <div>
       <FileUploader onUpload={setFiles} style={{ marginBottom: 20 }} />
       <InputGroup
         placeholder="Output path"

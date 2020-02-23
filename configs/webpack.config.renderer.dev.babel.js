@@ -12,6 +12,7 @@ import chalk from 'chalk';
 import merge from 'webpack-merge';
 import { spawn, execSync } from 'child_process';
 import { TypedCssModulesPlugin } from 'typed-css-modules-webpack-plugin';
+import ThreadsPlugin from 'threads-plugin';
 import baseConfig from './webpack.config.base';
 import CheckNodeEnv from '../internals/scripts/CheckNodeEnv';
 
@@ -232,7 +233,9 @@ export default merge.smart(baseConfig, {
 
     new webpack.LoaderOptionsPlugin({
       debug: true
-    })
+    }),
+
+    new ThreadsPlugin()
   ],
 
   node: {
