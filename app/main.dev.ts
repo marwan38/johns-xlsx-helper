@@ -9,9 +9,10 @@
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import { Intent } from '@blueprintjs/core';
 import MenuBuilder from './menu';
 import { Events } from './events';
 import { bus, init } from './message-bus';
@@ -101,6 +102,11 @@ const createWindow = async () => {
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
+
+  const x = await autoUpdater.checkForUpdatesAndNotify();
+  console.log('UPDATE ----------------------');
+  console.log(x);
+  console.log('=========================');
 };
 
 /**
@@ -128,14 +134,17 @@ app.on('activate', () => {
  */
 
 ipcMain.on(Events.Compare, async (event, args) => {
-  const { file, values, output } = args;
+  const { file, compare, output } = args;
   try {
     bus.message('Starting compare process');
-    const result = await xlsxFunctions.doCompare(values, file);
+    const result = await xlsxFunctions.doCompare(compare, file);
     await result.xlsx.writeFile(output);
-    bus.message('Compare process done and file has been output');
+    bus.message(
+      'Compare process done and file has been output',
+      Intent.SUCCESS
+    );
   } catch (e) {
-    bus.message(e.message || e, 'error');
+    bus.message(e.message || e, Intent.ERROR);
   }
 });
 
@@ -145,9 +154,21 @@ ipcMain.on(Events.Merge, async (event, args) => {
     bus.message('Starting merge process');
     const result = await xlsxFunctions.doMerge(files);
     await result.xlsx.writeFile(output);
-    bus.message('Merge process done and file has been output');
+    bus.message('Merge process done and file has been output', Intent.SUCCESS);
   } catch (e) {
-    bus.message(e.message || e, 'error');
+    bus.message(e.message || e, Intent.ERROR);
+  }
+});
+
+ipcMain.on(Events.Find, async (event, args) => {
+  const { files, output, columns, word } = args;
+  try {
+    bus.message('Starting find process');
+    const result = await xlsxFunctions.doFind({ columns, word }, files);
+    await result.xlsx.writeFile(output);
+    bus.message('Find process complete', Intent.SUCCESS);
+  } catch (e) {
+    bus.message(e.message || e, Intent.ERROR);
   }
 });
 

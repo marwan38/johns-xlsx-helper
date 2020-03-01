@@ -8,12 +8,10 @@ function Toast() {
   const ref = useRef();
 
   useEffect(() => {
-    ipcRenderer.on(Events.Message, (_, { type, message }) => {
+    ipcRenderer.on(Events.Message, (_, { intent, message }) => {
       const { current: toast } = ref;
-      if (type === 'log' || type === 'error') {
-        const intent = type === 'log' ? Intent.PRIMARY : Intent.DANGER;
-        toast.show({ message, intent });
-      }
+      console.log(message, intent)
+      toast.show({ message, intent });
     });
   }, []);
 

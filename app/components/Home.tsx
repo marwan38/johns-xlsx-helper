@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ipcRenderer, remote } from 'electron';
 import { Tabs, Tab, Card, InputGroup } from '@blueprintjs/core';
 
@@ -8,6 +8,7 @@ import FileUploader from './FileUploader';
 import Progress from './Progress';
 import Merge from './XLSX/Merge';
 import Compare from './XLSX/Compare';
+import Find from './XLSX/Find';
 import Toaster from './Toaster';
 
 // import { Link } from 'react-router-dom';
@@ -24,9 +25,17 @@ export default function Home() {
   const [outputName, setOutputName] = useState('output');
   const outputFullPath = `${outputPath}\\${outputName}.xlsx`;
 
+  // Auto set output path based on the files input
+  useEffect(() => {
+    if (files?.length > 0) {
+      const { path, name } = files[0];
+      setOutputPath(path.replace(`\\${name}`, ''));
+    }
+  }, [files]);
+
   const filesAvailable = files && files.length > 0;
   return (
-    <div>
+    <>
       <FileUploader onUpload={setFiles} style={{ marginBottom: 20 }} />
       <InputGroup
         placeholder="Output path"
@@ -69,11 +78,22 @@ export default function Home() {
             disabled={!files || files.length !== 1}
             panel={<Compare files={files} output={outputFullPath} />}
           />
+          <Tab
+            id="find-word"
+            title="Find word"
+            disabled={!files || files.length !== 1}
+            panel={<Find files={files} output={outputFullPath} />}
+          />
         </Tabs>
       </Card>
 
       <Progress style={{ marginTop: 20 }} />
       <Toaster />
-    </div>
+
+      <div style={{ marginTop: 'auto' }}>
+        <b>App version: </b>
+        {remote.app.getVersion()}
+      </div>
+    </>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ipcRenderer } from 'electron';
-import { Button, InputGroup } from '@blueprintjs/core';
+import { Button, InputGroup, Checkbox } from '@blueprintjs/core';
 
 import { Events } from '../../events';
 
@@ -12,6 +12,8 @@ type Props = {
 function Compare({ files, output }: Props) {
   const [columnA, setColumnA] = useState('');
   const [columnB, setColumnB] = useState('');
+  const [checked, setChecked] = useState(false);
+  const [wordToFind, setWordToFind] = useState('');
 
   return (
     <>
@@ -28,6 +30,24 @@ function Compare({ files, output }: Props) {
           value={columnB}
           onChange={e => setColumnB(e.target.value)}
         />
+        <Checkbox
+          checked={checked}
+          inline
+          onChange={() => setChecked(c => !c)}
+          style={{ marginTop: 10, display: 'flex', alignItems: 'center' }}
+        >
+          <div className="bp3-ui-text" style={{ color: 'black' }}>
+            Find word in the compared columns?
+          </div>
+        </Checkbox>
+        {checked && (
+          <InputGroup
+            placeholder="Column letter"
+            small
+            value={wordToFind}
+            onChange={e => setWordToFind(e.target.value)}
+          />
+        )}
       </div>
       <Button
         disabled={!files || !output || files.length > 1}
@@ -36,7 +56,10 @@ function Compare({ files, output }: Props) {
           ipcRenderer.send(Events.Compare, {
             file: files.length > 0 && files[0],
             output,
-            values: [columnA, columnB]
+            compare: {
+              find: wordToFind,
+              columns: [columnA, columnB]
+            }
           });
         }}
       />
