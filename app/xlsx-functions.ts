@@ -3,23 +3,15 @@
 import ExcelJS from 'exceljs';
 import { bus } from './message-bus';
 
-// eslint-disable-next-line no-underscore-dangle
-function _compareStrings(stringA, stringB) {
-  if (!stringA || !stringB) return null;
-  if (typeof stringA !== 'string') {
-    stringA = stringA.toString();
+function excelRichTextToString(obj) {
+  let normalized = obj;
+  if (typeof obj === 'object') {
+    normalized = '';
+    obj.richText.forEach(richTextObj => {
+      normalized += richTextObj.text;
+    });
   }
-  if (typeof stringB !== 'string') {
-    stringB = stringB.toString();
-  }
-  const split = stringA.split(' ');
-  const changeIndexes = [];
-  split.forEach((word, i) => {
-    if (!` ${stringB.toLowerCase()} `.includes(` ${word.toLowerCase()} `))
-      changeIndexes.push(i);
-  });
-
-  return changeIndexes;
+  return normalized;
 }
 
 // eslint-disable-next-line no-underscore-dangle
@@ -27,13 +19,39 @@ function _findWord(word, sentence) {
   if (!sentence || sentence === '') {
     return [];
   }
+  const normalized = excelRichTextToString(sentence);
 
-  return sentence.split(' ').reduce((acc, val, index) => {
-    if (` ${val.toLowerCase()} `.includes(word.toLowerCase())) {
-      return acc.concat(index);
-    }
-    return acc;
-  }, []);
+  return normalized
+    .split(' ')
+    .filter(word => word !== ' ')
+    .reduce((acc, val, index) => {
+      if (
+        ` ${val.toLowerCase().trim()} ` === ` ${word.toLowerCase().trim()} `
+      ) {
+        return acc.concat(index);
+      }
+      return acc;
+    }, []);
+}
+
+// eslint-disable-next-line no-underscore-dangle
+function _compareStrings(stringA, stringB) {
+  if (!stringA || !stringB) return null;
+  const normalizedStringA = excelRichTextToString(stringA);
+  const normalizedStringB = excelRichTextToString(stringB);
+
+  const split = normalizedStringA.split(' ');
+  const changeIndexes = [];
+  split.forEach((word, i) => {
+    if (
+      !` ${normalizedStringB.toLowerCase()} `.includes(
+        ` ${word.toLowerCase()} `
+      )
+    )
+      changeIndexes.push(i);
+  });
+
+  return changeIndexes;
 }
 
 function changeColorOfWordInCell(cell, wordIndex, color) {
@@ -88,7 +106,7 @@ async function doFind(payload, file) {
     return acc;
   }, 0);
 
-  for (let r = 0; r < totalRows; r++) {
+  for (let r = 1; r < totalRows; r++) {
     progress(`Processing cell ${r} of ${totalRows}`, r / totalRows);
     const searchWord = wordColumn.values[r];
     allColumns.forEach((col, i) => {
@@ -106,6 +124,35 @@ async function doFind(payload, file) {
   }
 
   return book;
+}
+
+export function differencesFn({ cell, changeIndex = [], wordSearch = [] }) {
+  const cellValue = {
+    richText: []
+  };
+
+  cell.text.split(' ').forEach((word, i) => {
+    if (word === '' || word === ' ') {
+      return;
+    }
+    const obj = { text: `${word} ` };
+    // Is different
+
+    const changeIndexIndex = changeIndex.indexOf(i);
+    if (changeIndexIndex > -1) {
+      obj.font = { color: { argb: 'FFDE1738' } };
+    }
+
+    const wordSearchIndex = wordSearch.indexOf(i);
+    if (wordSearchIndex > -1) {
+      obj.font = { color: { argb: 'FF32CD32' } };
+    }
+
+    cellValue.richText.push(obj);
+  });
+  cell.value = cellValue;
+
+  return cell;
 }
 
 async function doCompare(compare, file) {
@@ -161,39 +208,20 @@ async function doCompare(compare, file) {
       if (compared !== null) {
         const [cellAChangeIndex, cellBChangeIndex] = compared;
         columnADifferences.push({
-          address: cellAAddress,
+          cell: ws.getCell(cellAAddress),
           changeIndex: cellAChangeIndex,
-          wordSearch: find ? _findWord(wordSearchCell, cellA) : null
+          wordSearch: wordSearchCell && _findWord(wordSearchCell, cellA)
         });
         columnBDifferences.push({
-          address: cellBAddress,
+          cell: ws.getCell(cellBAddress),
           changeIndex: cellBChangeIndex,
-          wordSearch: find ? _findWord(wordSearchCell, cellB) : null
+          wordSearch: wordSearchCell && _findWord(wordSearchCell, cellB)
         });
       }
     }
   }
 
   compareFn();
-
-  function differencesFn({ address, changeIndex, wordSearch }) {
-    const cell = ws.getCell(address);
-    const cellValue = {
-      richText: []
-    };
-    cell.text.split(' ').forEach((word, i) => {
-      const obj = { text: `${word} ` };
-      // Is different
-      if (changeIndex && changeIndex.some(c => c === i)) {
-        obj.font = { color: { argb: 'FFDE1738' } };
-      }
-      if (wordSearch && wordSearch.some(c => c === i)) {
-        obj.font = { color: { argb: 'FF32CD32' } };
-      }
-      cellValue.richText.push(obj);
-    });
-    cell.value = cellValue;
-  }
 
   columnADifferences.forEach(differencesFn);
   columnBDifferences.forEach(differencesFn);

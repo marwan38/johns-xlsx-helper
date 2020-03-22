@@ -102,11 +102,6 @@ const createWindow = async () => {
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
-
-  const x = await autoUpdater.checkForUpdatesAndNotify();
-  console.log('UPDATE ----------------------');
-  console.log(x);
-  console.log('=========================');
 };
 
 /**
